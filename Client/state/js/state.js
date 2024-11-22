@@ -2,7 +2,7 @@ class StatePage {
     constructor() {
         this.state = {
             stateCode: "",
-            stateName: "",
+            stateName: ""
         };
 
         // instance variables that the app needs but are not part of the "state" of the application
@@ -169,14 +169,14 @@ class StatePage {
     // makes the fields editable
     onEditState(event) {
         event.preventDefault();
-        // can't edit the customer id
+        // can't edit the StateCode
         this.$stateCode.readOnly = true;
         this.makeFieldsReadOnly(false);
         this.makeFieldsRequired(true);
         this.enableButtons("editing");
     }
 
-    // clears the form for input of a new customer
+    // clears the form for input of a new state
     onAddState(event) {
         event.preventDefault();
         this.clearStateFields();
@@ -185,7 +185,7 @@ class StatePage {
         this.enableButtons("editing");
     }
 
-    // cancels the editing for either a new customer or an existing customer
+    // cancels the editing for either a new state or an existing state
     onCancel(event) {
         event.preventDefault();
         if (this.state.stateCode == "") {
@@ -202,7 +202,7 @@ class StatePage {
         }
     }
 
-    // fills the form with data based on the customer
+    // fills the form with data based on the state
     fillStateFields() {
         // fill the fields
         this.$stateCode.value = this.state.stateCode;
