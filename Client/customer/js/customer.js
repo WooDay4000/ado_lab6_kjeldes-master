@@ -120,30 +120,27 @@ class CustomerPage {
     // deletes the customer displayed on the screen from the database
     onDeleteCustomer(event) {
         event.preventDefault();
-        if (this.state.customerId != "") {
-            fetch(`${this.url}/${this.state.customerId}`, { method: 'DELETE' })
-                .then(response => response.json())
-                .then(data => {
-                    // returns the record that we deleted so the ids should be the same 
-                    if (this.state.customerId == data.customerId) {
-                        this.state.customerId = "";
-                        this.state.customer = null;
-                        this.$customerId.value = "";
-                        this.clearCustomerFields();
-                        this.enableButtons("pageLoad");
-                        alert("Customer was deleted.")
-                    }
-                    else {
-                        alert('There was a problem deleting customer info!');
-                    }
-                })
-                .catch(error => {
+        if (this.state.customerId == "") {
+            alert('There was a problem deleting customer info, enter a CustomerId!');
+            return;
+        }
+        fetch(`${this.url}/${this.state.customerId}`, { method: 'DELETE' })
+            .then(response => {
+                if (response.ok) {
+                    this.state.customerId = "";
+                    this.state.customer = null;
+                    this.$customerId.value = "";
+                    this.clearCustomerFields();
+                    this.enableButtons("pageLoad");
+                    alert("Customer was deleted.")
+                }
+                else {
                     alert('There was a problem deleting customer info!');
-                });
-        }
-        else {
-            // this should never happen if the right buttons are enabled
-        }
+                }
+            })
+            .catch(error => {
+                alert('There was a problem deleting customer info!');
+            });
     }
 
     // makes either a post or a put request to /api/customers
