@@ -6,7 +6,7 @@ class StatePage {
         };
 
         // instance variables that the app needs but are not part of the "state" of the application
-        this.server = "http://localhost:5000/api"
+        this.server = "http://localhost:5000/api";
         this.url = this.server + "/states";
 
         // instance variables related to ui elements simplifies code in other places
@@ -77,6 +77,7 @@ class StatePage {
     onDeleteState(event) {
         event.preventDefault();
         if (this.state.stateCode == "") {
+            // this should never happen if the right buttons are enabled
             alert('There was a problem deleting state info, enter a state code!');
             return;
         }
@@ -104,11 +105,14 @@ class StatePage {
     onSaveState(event) {
         event.preventDefault();
         // ---
-        const stateCode = this.$stateCode.value;
-        const stateName = this.$stateName.value;
-        const requestBody = { stateCode, stateName };
+        this.state.stateCode = this.$stateCode.value;
+        this.state.stateName = this.$stateName.value;
+        const requestBody = {
+            stateCode: this.state.stateCode,
+            stateName: this.state.stateName
+        };
         // ---
-        fetch(`${this.url}/${stateCode}`)
+        fetch(`${this.url}/${this.state.stateCode}`)
             .then(response => {
                 // Add
                 if (response.status == 404) {
@@ -140,7 +144,7 @@ class StatePage {
                     // Update
                     // the format of the body has to match the original object exactly 
                     // so make a copy of it and copy the values from the form
-                    fetch(`${this.url}/${stateCode}`, {
+                    fetch(`${this.url}/${this.state.stateCode}`, {
                         method: 'PUT',
                         body: JSON.stringify(requestBody),
                         headers: {

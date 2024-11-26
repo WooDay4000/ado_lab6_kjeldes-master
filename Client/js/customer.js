@@ -1,5 +1,4 @@
 class CustomerPage {
-
     constructor() {
         this.state = {
             customerId: "",
@@ -8,7 +7,7 @@ class CustomerPage {
         };
 
         // instance variables that the app needs but are not part of the "state" of the application
-        this.server = "http://localhost:5000/api"
+        this.server = "http://localhost:5000/api";
         this.url = this.server + "/customers";
 
         // instance variables related to ui elements simplifies code in other places
@@ -32,7 +31,6 @@ class CustomerPage {
         this.makeFieldsReadOnly(true);
         this.makeFieldsRequired(false);
         this.enableButtons("pageLoad");
-
     }
 
     // any method that is used as part of an event handler must bind this to the class
@@ -63,7 +61,7 @@ class CustomerPage {
             .then(response => response.json())
             .then(data => {
                 if (data.length == 0) {
-                    alert("Can't load states.  Can not add or edit customers without state inforamtion.");
+                    alert("Can't load states. Can not add or edit customers without state inforamtion.");
                 }
                 else {
                     this.state.states = data;
@@ -121,7 +119,8 @@ class CustomerPage {
     onDeleteCustomer(event) {
         event.preventDefault();
         if (this.state.customerId == "") {
-            alert('There was a problem deleting customer info, enter a CustomerId!');
+            // this should never happen if the right buttons are enabled
+            alert('There was a problem deleting customer info, enter a customer id!');
             return;
         }
         fetch(`${this.url}/${this.state.customerId}`, { method: 'DELETE' })
@@ -298,7 +297,7 @@ class CustomerPage {
         this.$customerName.required = required;
         this.$customerAddress.required = required;
         this.$customerCity.required = required;
-        //this.$customerState.required = required;
+        this.$customerState.required = required;
         this.$customerZipcode.required = required;
     }
 
